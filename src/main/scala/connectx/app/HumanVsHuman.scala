@@ -2,28 +2,35 @@ package connectx.app
 
 import scala.io.StdIn.readLine
 
-import connectx.game.{Board}
+import connectx.game.{Board, StoneColor, GameResult}
 import connectx.Console
-import connectx.game.StoneColor
 import scala.annotation.tailrec
 
 object HumanVsHuman:
   def main(args: Array[String]): Unit = 
     val board = Board(7, 6)
+    val result = play(board, StoneColor.Black, false)
+    println("")
+    result match 
+      case GameResult.BlackWon => println("Black won!")
+      case GameResult.WhiteWon => println("White won!")
+      case _ => println("Draw")
 
-    play(board, StoneColor.Black)
+    println("")
+
 
   @tailrec
-  def play(board: Board, stone: StoneColor): Unit = 
+  def play(board: Board, stone: StoneColor, lastPass: Boolean): GameResult = 
     Console.printBoard(board)
     if (stone == StoneColor.Black)
-      println("black move: ")
+      print("black move: ")
     else
-      println("white move: ")
+      print("white move: ")
     val col = safeInt(readLine()).getOrElse(0) - 1
-    if (col < 0) return
-    board.putStone(col, stone)
-    play(board, if(stone == StoneColor.Black) StoneColor.White else StoneColor.Black)
+    val isPass = !board.putStone(col, stone)
+    if(lastPass && isPass) return GameResult.Draw
+    val nextColor = if(stone == StoneColor.Black) StoneColor.White else StoneColor.Black
+    play(board, nextColor, isPass)
 
   
   def safeInt(str: String): Option[Int] =

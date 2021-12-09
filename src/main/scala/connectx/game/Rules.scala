@@ -9,6 +9,9 @@ enum CellType:
   case Stone(c: StoneColor)
   case NoStone
 
+enum GameResult:
+  case Draw, BlackWon, WhiteWon
+
 
 case class Board(width: Int, height: Int):
 
@@ -17,7 +20,7 @@ case class Board(width: Int, height: Int):
   // Add new stone at given column. 
   // Return tru if stone was added or false otherwise
   def putStone(col: Int, stone: StoneColor): Boolean =
-    if (col >= width) return false
+    if (col >= width || col < 0) return false
     val emptyRow = 0.until(height)
       .map(r => coords2idx(col, r))
       .filter(i => cells(i) == CellType.NoStone)
