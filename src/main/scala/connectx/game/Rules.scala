@@ -10,7 +10,7 @@ enum CellType:
   case NoStone
 
 
-class Board(width: Int, height: Int):
+case class Board(width: Int, height: Int):
 
   private val cells: Array[CellType] = Array.fill(width*height){CellType.NoStone}
 
