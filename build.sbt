@@ -4,9 +4,12 @@ lazy val root = project
   .in(file("."))
   .settings(
     name := "connectx",
-    version := "0.1.0-SNAPSHOT",
+    version := "0.1.0",
 
     scalaVersion := scala3Version,
 
-    libraryDependencies += "com.novocode" % "junit-interface" % "0.11" % "test"
+    libraryDependencies ++= Seq(
+      "org.scalatest" %% "scalatest" % "3.2.10" % "test",
+      "org.scalatest" %% "scalatest-wordspec" % "3.2.10" % "test"
+    )
   )
