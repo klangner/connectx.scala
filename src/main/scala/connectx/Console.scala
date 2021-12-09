@@ -17,3 +17,4 @@ object Console:
             } + "|"
             println(rowLine)
         println(line)
+        println(" " + 1.to(board.width).mkString(" "))
