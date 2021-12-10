@@ -42,3 +42,21 @@ case class Board(width: Int, height: Int):
   // Convert 2D coords into array index 
   private def coords2idx(col: Int, row: Int): Int = 
     row * width + col
+
+
+object RuleChecker:
+  // Find 4 stone in a row
+  def hasWon(board: Board, color: StoneColor): Boolean = 
+    0.until(board.height).foldLeft(false) { (acc, row) => 
+      acc || checkRowStones(board, row, color)
+    }
+
+  // Check if row contains 4 stones in a row
+  def checkRowStones(board: Board, row: Int, color: StoneColor): Boolean =
+    val maxGroupSize = 0.until(board.width).foldLeft(0) { (acc, col) =>
+      if(board.getStone(col, row) == CellType.Stone(color)) acc + 1
+      else if (acc >= 4) acc
+      else 0
+    }
+    maxGroupSize >= 4
+
