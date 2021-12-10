@@ -44,7 +44,7 @@ case class Board(width: Int, height: Int):
     row * width + col
 
 
-object RuleChecker:
+object VictoryChecker:
   // Find 4 stone in a row
   def hasWon(board: Board, color: StoneColor): Boolean = 
     val rowPattern = 0.until(board.height).foldLeft(false) { (acc, row) => 

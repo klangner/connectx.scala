@@ -4,10 +4,10 @@ import org.scalatest.matchers.should.Matchers
 import connectx.game.Board
 import connectx.game.StoneColor._
 import connectx.game.CellType
-import connectx.game.RuleChecker
+import connectx.game.VictoryChecker
 
 
-class RuleCheckerSpec extends AnyWordSpec  with Matchers{
+class VictoryCheckerSpec extends AnyWordSpec  with Matchers{
 
     "RuleChecker" should {
       "find 4 in a row" in {
@@ -18,8 +18,8 @@ class RuleCheckerSpec extends AnyWordSpec  with Matchers{
         board.putStone(3, Black)
         board.putStone(4, Black)
         board.putStone(5, Black)
-        RuleChecker.hasWon(board, White) shouldBe false
-        RuleChecker.hasWon(board, Black) shouldBe true
+        VictoryChecker.hasWon(board, White) shouldBe false
+        VictoryChecker.hasWon(board, Black) shouldBe true
       }
       
       "find 4 in a column" in {
@@ -30,8 +30,8 @@ class RuleCheckerSpec extends AnyWordSpec  with Matchers{
         board.putStone(3, Black)
         board.putStone(3, Black)
         board.putStone(3, Black)
-        RuleChecker.hasWon(board, White) shouldBe false
-        RuleChecker.hasWon(board, Black) shouldBe true
+        VictoryChecker.hasWon(board, White) shouldBe false
+        VictoryChecker.hasWon(board, Black) shouldBe true
       }
     }
 }
