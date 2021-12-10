@@ -47,9 +47,13 @@ case class Board(width: Int, height: Int):
 object RuleChecker:
   // Find 4 stone in a row
   def hasWon(board: Board, color: StoneColor): Boolean = 
-    0.until(board.height).foldLeft(false) { (acc, row) => 
+    val rowPattern = 0.until(board.height).foldLeft(false) { (acc, row) => 
       acc || checkRowStones(board, row, color)
     }
+    val colPattern = 0.until(board.width).foldLeft(false) { (acc, col) => 
+      acc || checkColumnStones(board, col, color)
+    }
+    rowPattern || colPattern
 
   // Check if row contains 4 stones in a row
   def checkRowStones(board: Board, row: Int, color: StoneColor): Boolean =
@@ -60,3 +64,11 @@ object RuleChecker:
     }
     maxGroupSize >= 4
 
+  // Check if column contains 4 stones in a row
+  def checkColumnStones(board: Board, col: Int, color: StoneColor): Boolean =
+    val maxGroupSize = 0.until(board.height).foldLeft(0) { (acc, row) =>
+      if(board.getStone(col, row) == CellType.Stone(color)) acc + 1
+      else if (acc >= 4) acc
+      else 0
+    }
+    maxGroupSize >= 4
