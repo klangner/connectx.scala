@@ -6,7 +6,7 @@ import connectx.game.StoneColor
 import connectx.game.CellType
 
 
-class BoardSpec extends AnyWordSpec  with Matchers{
+class BoardSpec extends AnyWordSpec  with Matchers {
 
     "Board" should {
       "start empty" in {
@@ -26,6 +26,21 @@ class BoardSpec extends AnyWordSpec  with Matchers{
         board.putStone(3, StoneColor.White)
         board.getStone(3, 1) shouldBe CellType.Stone(StoneColor.White)
         board.getStone(3, 0) shouldBe CellType.Stone(StoneColor.Black)
+      }
+
+      "serialize to/from string" in {
+        val boardStr = 
+          """|---------------
+             || | | | | | | |
+             || | | | | | | |
+             || |x|o| | |x| |
+             ||x|o|o|x| |o| |
+             ||o|o|o|x|x|o|x|
+             ||x|x|x|x|o|o|x|
+             |---------------
+             | 1 2 3 4 5 6 7""".stripMargin
+        val board = Board.fromString(boardStr).get
+        board.mkString() shouldBe boardStr
       }
     }
 }

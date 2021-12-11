@@ -15,6 +15,25 @@ enum GameResult:
   case Draw, BlackWon, WhiteWon
 
 
+object Board:
+  def fromString(str: String): Option[Board] = 
+    val lines = str.split("\n")
+    if (lines.length < 4) return None
+    val rowLines = lines.slice(1, lines.length-2).reverse
+    val rows = rowLines.length
+    val cols = (rowLines(0).length - 1) / 2
+    if (cols < 1) return None
+    val board = Board(cols, rows)
+    for (row <- rowLines)
+      for (col <- 0.until(cols))
+        row(2*col+1) match 
+          case 'x' => board.putStone(col, StoneColor.Black)
+          case 'o' => board.putStone(col, StoneColor.White)
+          case _   =>
+
+    Some(board)
+
+
 case class Board(width: Int, height: Int):
 
   private val cells: Array[CellType] = Array.fill(width*height){CellType.NoStone}
