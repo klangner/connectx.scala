@@ -4,7 +4,7 @@ import scala.annotation.tailrec
 
 import connectx.game.{Board, StoneColor, GameResult}
 import connectx.game.VictoryChecker
-import connectx.agent.{Agent, Action, HumanPlayer, RandomBot}
+import connectx.agent.{Agent, Action, HumanPlayer, RandomAgent}
 
 
 object PlayGame:
@@ -16,8 +16,8 @@ object PlayGame:
 
   def runGame(bot1: String, bot2: String): Unit = 
     val board = Board(7, 6)
-    val blackPlayer = initBot(bot1, StoneColor.Black)
-    val whitePlayer = initBot(bot2, StoneColor.White)
+    val blackPlayer = initAgent(bot1, StoneColor.Black)
+    val whitePlayer = initAgent(bot2, StoneColor.White)
     val result = play(board, blackPlayer, whitePlayer, StoneColor.Black, false)
     println("")
     result match 
@@ -28,9 +28,9 @@ object PlayGame:
     println("")
 
 
-  def initBot(name: String, color: StoneColor): Agent = 
+  def initAgent(name: String, color: StoneColor): Agent = 
     name match
-      case "random" => RandomBot(color)
+      case "random" => RandomAgent(color)
       case _        => HumanPlayer(color)
 
 

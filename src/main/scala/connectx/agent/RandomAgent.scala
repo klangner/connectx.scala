@@ -4,7 +4,7 @@ import connectx.game.Board
 import connectx.game.StoneColor
 
 
-class RandomBot(color: StoneColor) extends Agent:
+class RandomAgent(color: StoneColor) extends Agent:
   
     private val rnd = new scala.util.Random
 
