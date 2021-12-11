@@ -1,4 +1,7 @@
-## Test different approaches for bots for Connect X game
+## Connect 4 and Scala
+
+Have some fun with Reinforcement Learning and Scala 3
+
 
 ### Usage
 
