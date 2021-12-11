@@ -33,5 +33,34 @@ class VictoryCheckerSpec extends AnyWordSpec  with Matchers{
         VictoryChecker.hasWon(board, White) shouldBe false
         VictoryChecker.hasWon(board, Black) shouldBe true
       }
+      
+      "find 4 left to right cross" in {
+        val board = Board(7, 6)
+        for (i <- 2.until(6)) 
+          for (j <- i.until(7))
+            if ((i+j) % 2 == 0)
+              board.putStone(j, White)
+            else
+              board.putStone(j, Black)
+
+        connectx.Console.printBoard(board)
+        VictoryChecker.hasWon(board, White) shouldBe true
+        VictoryChecker.hasWon(board, Black) shouldBe true
+      }
     }
+      
+    //   "find 4 right to left cross" in {
+    //     val board = Board(7, 6)
+    //     for (i <- 2.until(6)) 
+    //       for (j <- i.until(7))
+    //         if ((i+j) % 2 == 0)
+    //           board.putStone(j, White)
+    //         else
+    //           board.putStone(j, Black)
+
+    //     connectx.Console.printBoard(board)
+    //     VictoryChecker.hasWon(board, White) shouldBe true
+    //     VictoryChecker.hasWon(board, Black) shouldBe true
+    //   }
+    // }
 }

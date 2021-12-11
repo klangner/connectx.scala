@@ -3,7 +3,6 @@ package connectx.app
 import scala.io.StdIn.readLine
 
 import connectx.game.{Board, StoneColor, GameResult}
-import connectx.Console
 import scala.annotation.tailrec
 
 object HumanVsHuman:
@@ -21,7 +20,7 @@ object HumanVsHuman:
 
   @tailrec
   def play(board: Board, stone: StoneColor, lastPass: Boolean): GameResult = 
-    Console.printBoard(board)
+    println(board.mkString())
     if (stone == StoneColor.Black)
       print("black move: ")
     else
