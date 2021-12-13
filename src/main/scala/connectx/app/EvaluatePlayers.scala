@@ -52,9 +52,8 @@ object EvaluatePlayers:
       case Action.PutStone(col) => (board.putStone(col, stone), false)
     if(lastPass && isPass) return GameResult.Draw
     if(VictoryChecker.hasWon(newBoard, stone))
-      return if(stone == StoneColor.Black) GameResult.BlackWon else GameResult.WhiteWon
-    val nextColor = if(stone == StoneColor.Black) StoneColor.White else StoneColor.Black
-    play(newBoard, blackPlayer, whitePlayer, nextColor, isPass)
+      return GameResult.fromStone(stone) 
+    play(newBoard, blackPlayer, whitePlayer, stone.other, isPass)
 
 
   // Convert illegal action into pass

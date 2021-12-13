@@ -45,9 +45,8 @@ object PlayGame:
     if(lastPass && isPass) return GameResult.Draw
     if(VictoryChecker.hasWon(newBoard, stone))
       println(newBoard.mkString())
-      return if(stone == StoneColor.Black) GameResult.BlackWon else GameResult.WhiteWon
-    val nextColor = if(stone == StoneColor.Black) StoneColor.White else StoneColor.Black
-    play(newBoard, blackPlayer, whitePlayer, nextColor, isPass)
+      return GameResult.fromStone(stone) 
+    play(newBoard, blackPlayer, whitePlayer, stone.other, isPass)
 
 
   // Convert illegal action into pass

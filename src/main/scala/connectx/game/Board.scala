@@ -5,14 +5,19 @@ import scala.math.{max, min}
 
 enum StoneColor: 
   case Black, White
+  def other: StoneColor = if (this == Black) White else Black 
 
 
 enum CellType:
   case Stone(c: StoneColor)
   case NoStone
 
+
 enum GameResult:
   case Draw, BlackWon, WhiteWon
+
+object GameResult:
+  def fromStone(stone: StoneColor): GameResult = if(stone == StoneColor.Black) BlackWon else WhiteWon
 
 
 object Board:

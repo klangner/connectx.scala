@@ -1,12 +1,25 @@
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers
 
-import connectx.game.Board
-import connectx.game.StoneColor
-import connectx.game.CellType
+import connectx.game.{Board, CellType, GameResult, StoneColor}
 
 
 class BoardSpec extends AnyWordSpec  with Matchers {
+
+    "StoneColor" should {
+      "other" in {
+        val color = StoneColor.Black
+        color.other shouldBe StoneColor.White
+        color.other.other shouldBe StoneColor.Black
+      }
+    }
+
+    "GameResult" should {
+      "win from stone" in {
+        val result = GameResult.fromStone(StoneColor.White)
+        result shouldBe GameResult.WhiteWon
+      }
+    }
 
     "Board" should {
       "start empty" in {
