@@ -39,12 +39,15 @@ object PlayGame:
     println(board.mkString())
     println(s"$stone move: ")
     val action = if (stone == StoneColor.Black) blackPlayer.makeMove(board) else whitePlayer.makeMove(board)
-    val isPass = action match
-      case Action.Pass => true
-      case Action.PutStone(col) => !board.putStone(col, stone)
+    val (newBoard, isPass) = action match
+      case Action.Pass => (board, true)
+      case Action.PutStone(col) => 
+        if (board.canPutStone(col))
+          (board.putStone(col, stone), false)
+        else (board, true)
     if(lastPass && isPass) return GameResult.Draw
-    if(VictoryChecker.hasWon(board, stone))
-      println(board.mkString())
+    if(VictoryChecker.hasWon(newBoard, stone))
+      println(newBoard.mkString())
       return if(stone == StoneColor.Black) GameResult.BlackWon else GameResult.WhiteWon
     val nextColor = if(stone == StoneColor.Black) StoneColor.White else StoneColor.Black
-    play(board, blackPlayer, whitePlayer, nextColor, isPass)
+    play(newBoard, blackPlayer, whitePlayer, nextColor, isPass)
