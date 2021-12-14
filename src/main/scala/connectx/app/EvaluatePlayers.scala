@@ -10,7 +10,7 @@ import connectx.agent.{Agent, Action, AlphaBetaAgent, HumanPlayer, RandomAgent}
 object EvaluatePlayers:
 
   def main(args: Array[String]): Unit = 
-    val numGames = 10_000
+    val numGames = 1_000
     val player1 = args(0)
     val player2 = args(1)
     val startTime = System.currentTimeMillis
@@ -24,10 +24,10 @@ object EvaluatePlayers:
       results1.filter(_ == GameResult.WhiteWon).length + results2.filter(_ == GameResult.BlackWon).length
     val draws = numGames - (player1Wins + player2Wins)
     val totalTime = (System.currentTimeMillis - startTime) / 1000
-    println(s"Played $numGames in $totalTime")
-    println(s"Player1 ($player1) wins: $player1Wins (${100*player1Wins/numGames}%)")
-    println(s"Player2 ($player2) wins: $player2Wins (${100*player2Wins/numGames}%)")
-    println(s"Black wins: $draws (${100*draws/numGames}%)")
+    println(s"Played $numGames in $totalTime seconds")
+    println(s"$player1 wins: $player1Wins (${100*player1Wins/numGames}%)")
+    println(s"$player2 wins: $player2Wins (${100*player2Wins/numGames}%)")
+    println(s"Draw: $draws (${100*draws/numGames}%)")
 
 
   def runGame(bot1: String, bot2: String): GameResult = 
@@ -38,9 +38,11 @@ object EvaluatePlayers:
 
 
   def initAgent(name: String, color: StoneColor): Agent = 
-    name match
-      case "alpha" => AlphaBetaAgent(color)
-      case _       => RandomAgent(color)
+    if (name.startsWith("alpha"))
+      val depth = name.substring(5).toInt
+      AlphaBetaAgent(color, depth)
+    else
+      RandomAgent(color)
 
 
   @tailrec
