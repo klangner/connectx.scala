@@ -32,7 +32,7 @@ object VictoryChecker:
 
 
   // Check if row contains 4 stones in a row
-  def checkRow(board: Board, row: Int, color: StoneColor): Boolean =
+  private def checkRow(board: Board, row: Int, color: StoneColor): Boolean =
     val maxGroupSize = 0.until(board.width).foldLeft(0) { (acc, col) =>
       if(board.getStone(col, row) == CellType.Stone(color)) acc + 1
       else if (acc >= 4) acc
@@ -42,7 +42,7 @@ object VictoryChecker:
 
 
   // Check if column contains 4 stones in a row
-  def checkColumn(board: Board, col: Int, color: StoneColor): Boolean =
+  private def checkColumn(board: Board, col: Int, color: StoneColor): Boolean =
     val maxGroupSize = 0.until(board.height).foldLeft(0) { (acc, row) =>
       if(board.getStone(col, row) == CellType.Stone(color)) acc + 1
       else if (acc >= 4) acc
@@ -52,7 +52,7 @@ object VictoryChecker:
 
 
   // Check accross left to right
-  def checkLeftRight(board: Board, pos: Int, color: StoneColor): Boolean =
+  private def checkLeftRight(board: Board, pos: Int, color: StoneColor): Boolean =
     val startCol = max(pos - board.height + 4, 0)
     val startRow = max(board.height - pos - 4, 0)
     val count = min(board.width, board.height)
@@ -65,7 +65,7 @@ object VictoryChecker:
 
 
   // Check accross left to right
-  def checkRightLeft(board: Board, pos: Int, color: StoneColor): Boolean =
+  private def checkRightLeft(board: Board, pos: Int, color: StoneColor): Boolean =
     val startCol = min(pos + 3, board.width-1)
     val startRow = max(pos + 3 - (board.width-1), 0)
     val count = min(board.width, board.height)

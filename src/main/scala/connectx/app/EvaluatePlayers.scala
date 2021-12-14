@@ -4,7 +4,7 @@ import scala.annotation.tailrec
 
 import connectx.game.{Board, StoneColor, GameResult}
 import connectx.game.VictoryChecker
-import connectx.agent.{Agent, Action, HumanPlayer, RandomAgent}
+import connectx.agent.{Agent, Action, AlphaBetaAgent, HumanPlayer, RandomAgent}
 
 
 object EvaluatePlayers:
@@ -39,8 +39,8 @@ object EvaluatePlayers:
 
   def initAgent(name: String, color: StoneColor): Agent = 
     name match
-      case "random" => RandomAgent(color)
-      case _        => RandomAgent(color)
+      case "alpha" => AlphaBetaAgent(color)
+      case _       => RandomAgent(color)
 
 
   @tailrec

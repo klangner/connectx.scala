@@ -4,10 +4,11 @@ import connectx.game.Board
 
 
 enum Action:
-    case PutStone(col: Int)
-    case Pass
+  case PutStone(col: Int)
+  case Pass
 
 
 trait Agent:
-    def makeMove(board: Board): Action
+  def makeMove(board: Board): Action
+
   
