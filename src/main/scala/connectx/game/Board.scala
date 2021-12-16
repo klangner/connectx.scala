@@ -73,7 +73,12 @@ class Board(val width: Int, val height: Int, private val cells: Vector[CellType]
     if (idx < cells.length) cells(idx) else CellType.NoStone
 
 
-  def mkString(): String = 
+  // Move is valid if given column is not full
+  def validMoves: Seq[Int] = 
+    0.until(width).filter(c => getStone(c, height-1) == CellType.NoStone)
+
+
+  override def toString(): String = 
     val sep = "-" * (2 * width + 1)
     val rows = (height-1 to 0 by -1).map { row =>
       0.until(width).foldLeft("") {(acc, col) =>

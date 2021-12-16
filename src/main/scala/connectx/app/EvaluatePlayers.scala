@@ -4,7 +4,7 @@ import scala.annotation.tailrec
 
 import connectx.game.{Board, StoneColor, GameResult}
 import connectx.game.VictoryChecker
-import connectx.agent.{Agent, Action, AlphaBetaAgent, HumanPlayer, RandomAgent}
+import connectx.agent.{Agent, Action, AlphaBetaAgent, HumanPlayer, MCAgent, RandomAgent}
 
 
 object EvaluatePlayers:
@@ -41,6 +41,9 @@ object EvaluatePlayers:
     if (name.startsWith("alpha"))
       val depth = name.substring(5).toInt
       AlphaBetaAgent(color, depth)
+    else if (name.startsWith("mc"))
+      val rollouts = name.substring(5).toInt
+      AlphaBetaAgent(color, rollouts*100)
     else
       RandomAgent(color)
 

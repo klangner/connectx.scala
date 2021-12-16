@@ -63,6 +63,21 @@ class BoardSpec extends AnyWordSpec  with Matchers {
         b2.getStone(3, 0) shouldBe CellType.Stone(StoneColor.Black)
       }
 
+      "return valida moves" in {
+        val boardStr = 
+          """|---------------
+             || |x| | | |o| |
+             || |x| | | |o| |
+             || |x|o| | |x| |
+             ||x|o|o|x| |o| |
+             ||o|o|o|x|x|o|x|
+             ||x|x|x|x|o|o|x|
+             |---------------
+             | 1 2 3 4 5 6 7""".stripMargin
+        val board = Board.fromString(boardStr).get
+        board.validMoves shouldBe Seq(0, 2, 3, 4, 6)
+      }
+      
       "serialize to/from string" in {
         val boardStr = 
           """|---------------
@@ -75,7 +90,7 @@ class BoardSpec extends AnyWordSpec  with Matchers {
              |---------------
              | 1 2 3 4 5 6 7""".stripMargin
         val board = Board.fromString(boardStr).get
-        board.mkString() shouldBe boardStr
+        board.toString() shouldBe boardStr
       }
     }
 }

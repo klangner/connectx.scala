@@ -4,7 +4,7 @@ import scala.annotation.tailrec
 
 import connectx.game.{Board, StoneColor, GameResult}
 import connectx.game.VictoryChecker
-import connectx.agent.{Agent, Action, AlphaBetaAgent, HumanPlayer, RandomAgent}
+import connectx.agent.{Agent, Action, AlphaBetaAgent, HumanPlayer, MCAgent, RandomAgent}
 
 
 object PlayGame:
@@ -30,14 +30,14 @@ object PlayGame:
   def initAgent(name: String, color: StoneColor): Agent = 
     name match
       case "random" => RandomAgent(color)
-      case "alpha1" =>  AlphaBetaAgent(color, 1)
-      case "alpha2" =>  AlphaBetaAgent(color, 2)
+      case "alpha" =>  AlphaBetaAgent(color, 4)
+      case "MC" =>     MCAgent(color, 4)
       case _        => HumanPlayer(color)
 
 
   @tailrec
   def play(board: Board, blackPlayer: Agent, whitePlayer: Agent, stone: StoneColor, lastPass: Boolean): GameResult = 
-    println(board.mkString())
+    println(board.toString())
     println(s"$stone move: ")
     val player = if (stone == StoneColor.Black) blackPlayer else whitePlayer 
     val action = makeMove(board, player) 
@@ -46,7 +46,7 @@ object PlayGame:
       case Action.PutStone(col) => (board.putStone(col, stone), false)
     if(lastPass && isPass) return GameResult.Draw
     if(VictoryChecker.hasWon(newBoard, stone))
-      println(newBoard.mkString())
+      println(newBoard.toString())
       return GameResult.fromStone(stone) 
     play(newBoard, blackPlayer, whitePlayer, stone.other, isPass)
 
