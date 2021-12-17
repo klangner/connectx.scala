@@ -32,20 +32,9 @@ object EvaluatePlayers:
 
   def runGame(bot1: String, bot2: String): GameResult = 
     val board = Board(7, 6)
-    val blackPlayer = initAgent(bot1, StoneColor.Black)
-    val whitePlayer = initAgent(bot2, StoneColor.White)
+    val blackPlayer = PlayGame.initAgent(bot1, StoneColor.Black)
+    val whitePlayer = PlayGame.initAgent(bot2, StoneColor.White)
     play(board, blackPlayer, whitePlayer, StoneColor.Black, false)
-
-
-  def initAgent(name: String, color: StoneColor): Agent = 
-    if (name.startsWith("alpha"))
-      val depth = name.substring(5).toInt
-      AlphaBetaAgent(color, depth)
-    else if (name.startsWith("mc"))
-      val rollouts = name.substring(5).toInt
-      AlphaBetaAgent(color, rollouts*100)
-    else
-      RandomAgent(color)
 
 
   @tailrec

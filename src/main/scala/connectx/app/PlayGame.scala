@@ -17,6 +17,7 @@ object PlayGame:
     val board = Board(7, 6)
     val blackPlayer = initAgent(bot1, StoneColor.Black)
     val whitePlayer = initAgent(bot2, StoneColor.White)
+    println(s"$blackPlayer vs $whitePlayer")
     val result = play(board, blackPlayer, whitePlayer, StoneColor.Black, false)
     println("")
     result match 
@@ -28,11 +29,16 @@ object PlayGame:
 
 
   def initAgent(name: String, color: StoneColor): Agent = 
-    name match
-      case "random" => RandomAgent(color)
-      case "alpha" =>  AlphaBetaAgent(color, 4)
-      case "MC" =>     MCAgent(color, 4)
-      case _        => HumanPlayer(color)
+    if (name.startsWith("alpha"))
+      val depth = name.substring(5).toInt
+      AlphaBetaAgent(color, depth)
+    else if (name.startsWith("mc"))
+      val rollouts = name.substring(2).toInt
+      MCAgent(color, rollouts*100)
+    else if (name == "human")
+      HumanPlayer(color)
+    else
+      RandomAgent(color)
 
 
   @tailrec

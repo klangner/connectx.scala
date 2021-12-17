@@ -42,7 +42,7 @@ class MCAgentSpec extends AnyWordSpec  with Matchers {
       val board = Board.fromString(boardStr).get
       val state = State(board, StoneColor.White)
       val rootNode = Node(None, state)
-      val child = rootNode.expand().get
+      val child = rootNode.expand()
 
       child should not be rootNode
     }
@@ -61,7 +61,7 @@ class MCAgentSpec extends AnyWordSpec  with Matchers {
       val board = Board.fromString(boardStr).get
       val state = State(board, StoneColor.White)
       val rootNode = Node(None, state)
-      rootNode.expand() shouldBe None
+      rootNode.expand() shouldBe rootNode
     }
     
     "Propagate score" in {
@@ -78,9 +78,9 @@ class MCAgentSpec extends AnyWordSpec  with Matchers {
       val board = Board.fromString(boardStr).get
       val state = State(board, StoneColor.White)
       val rootNode = Node(None, state)
-      val child = rootNode.expand().get
+      val child = rootNode.expand()
       val result = child.simulate()
-      child.propagate(1.0)
+      child.backpropagate(1.0)
       rootNode.ucb1(1) shouldBe 1.0
       child.ucb1(1) shouldBe 1.0
     }

@@ -19,3 +19,5 @@ class HumanPlayer(color: StoneColor) extends Agent:
     catch 
       case e: Exception => None
   
+
+  override def toString(): String = "Human"
