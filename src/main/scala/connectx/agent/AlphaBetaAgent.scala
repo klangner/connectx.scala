@@ -39,8 +39,6 @@ class AlphaBetaAgent(color: StoneColor, searchDepth: Int) extends Agent:
     if(depth == searchDepth)
       return (rnd.nextInt(board.width), 0)
       
-    (rnd.nextInt(board.width), 0)
-      
     // Look down the tree
     val moves = 0.until(board.width).map { col =>
       val b = board.putStone(col, stone)
