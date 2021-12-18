@@ -15,31 +15,7 @@ object GameResult:
   def fromStone(stone: StoneColor): GameResult = if(stone == StoneColor.Black) BlackWon else WhiteWon
 
 
-object Board:
-  def fromString(str: String): Option[Board] = 
-    val lines = str.split("\n")
-    if (lines.length < 4) return None
-    val rowLines = lines.slice(1, lines.length-2).reverse
-    val rows = rowLines.length
-    val cols = (rowLines(0).length - 1) / 2
-    if (cols < 1) return None
-    val board = rowLines.foldLeft(Board(cols, rows)) {(b, row) =>
-      0.until(cols).foldLeft(b){ (b2, col) =>
-        row(2*col+1) match 
-          case 'x' => b2.putStone(col, StoneColor.Black)
-          case 'o' => b2.putStone(col, StoneColor.White)
-          case _   => b2
-      }
-    }
-
-    Some(board)
-
-
-class Board(val width: Int, val height: Int, private val cells: Vector[Option[StoneColor]]):
-
-  def this(width: Int, height: Int) = 
-    this(width, height, Vector.fill(width*height)(None))
-
+case class Board(val width: Int, val height: Int, val cells: Vector[Option[StoneColor]]):
 
   def canPutStone(col: Int): Boolean = 
     if (col >= width || col < 0) return false
@@ -92,3 +68,29 @@ class Board(val width: Int, val height: Int, private val cells: Vector[Option[St
   // Convert 2D coords into array index 
   private def coords2idx(col: Int, row: Int): Int = 
     row * width + col
+
+
+object Board:
+  
+  def apply(width: Int, height: Int) = 
+    new Board(width, height, Vector.fill(width*height)(None))
+
+
+  def fromString(str: String): Option[Board] = 
+    val lines = str.split("\n")
+    if (lines.length < 4) return None
+    val rowLines = lines.slice(1, lines.length-2).reverse
+    val rows = rowLines.length
+    val cols = (rowLines(0).length - 1) / 2
+    if (cols < 1) return None
+    val board = rowLines.foldLeft(Board(cols, rows)) {(b, row) =>
+      0.until(cols).foldLeft(b){ (b2, col) =>
+        row(2*col+1) match 
+          case 'x' => b2.putStone(col, StoneColor.Black)
+          case 'o' => b2.putStone(col, StoneColor.White)
+          case _   => b2
+      }
+    }
+
+    Some(board)
+
