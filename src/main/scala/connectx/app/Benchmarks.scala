@@ -12,7 +12,7 @@ object Benchmarks:
   def main(args: Array[String]): Unit = 
     val numSims = 1_000
     val board = Board(7, 6)
-    val agent = AlphaBetaAgent(StoneColor.Black, 5)
+    val agent = AlphaBetaAgent(StoneColor.Black, 4)
     // val agent = MCAgent(StoneColor.Black, 1_000)
     val startTime = System.currentTimeMillis()
     val actions = 0.until(numSims).map { _ =>

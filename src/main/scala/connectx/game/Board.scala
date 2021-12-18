@@ -8,11 +8,6 @@ enum StoneColor:
   def other: StoneColor = if (this == Black) White else Black 
 
 
-enum CellType:
-  case Stone(c: StoneColor)
-  case NoStone
-
-
 enum GameResult:
   case Draw, BlackWon, WhiteWon
 
@@ -40,15 +35,15 @@ object Board:
     Some(board)
 
 
-class Board(val width: Int, val height: Int, private val cells: Vector[CellType]):
+class Board(val width: Int, val height: Int, private val cells: Vector[Option[StoneColor]]):
 
   def this(width: Int, height: Int) = 
-    this(width, height, Vector.fill(width*height)(CellType.NoStone))
+    this(width, height, Vector.fill(width*height)(None))
 
 
   def canPutStone(col: Int): Boolean = 
     if (col >= width || col < 0) return false
-    getStone(col, height-1) == CellType.NoStone
+    getStone(col, height-1).isEmpty
 
 
   // Add new stone at given column. 
@@ -57,25 +52,25 @@ class Board(val width: Int, val height: Int, private val cells: Vector[CellType]
     if (col >= width || col < 0) return this
     val emptyRow = 0.until(height)
       .map(r => coords2idx(col, r))
-      .filter(i => cells(i) == CellType.NoStone)
+      .filter(i => cells(i).isEmpty)
       .headOption
 
     emptyRow match
       case Some(i) => 
-        val newCells = cells.updated(i, CellType.Stone(stone))
+        val newCells = cells.updated(i, Some(stone))
         Board(width, height, newCells)
       case _ => this
 
 
   // Get stone at given position
-  def getStone(col: Int, row: Int): CellType =
+  def getStone(col: Int, row: Int): Option[StoneColor] =
     val idx = coords2idx(col, row)
-    if (idx < cells.length) cells(idx) else CellType.NoStone
+    if (idx < cells.length) cells(idx) else None
 
 
   // Move is valid if given column is not full
   def validMoves: Seq[Int] = 
-    0.until(width).filter(c => getStone(c, height-1) == CellType.NoStone)
+    0.until(width).filter(c => getStone(c, height-1).isEmpty)
 
 
   override def toString(): String = 
@@ -83,8 +78,8 @@ class Board(val width: Int, val height: Int, private val cells: Vector[CellType]
     val rows = (height-1 to 0 by -1).map { row =>
       0.until(width).foldLeft("") {(acc, col) =>
           val cell = getStone(col, row) match 
-              case CellType.Stone(StoneColor.Black) => "|x"
-              case CellType.Stone(StoneColor.White) => "|o"
+              case Some(StoneColor.Black) => "|x"
+              case Some(StoneColor.White) => "|o"
               case _ => "| "
           acc + cell
       } + "|"
