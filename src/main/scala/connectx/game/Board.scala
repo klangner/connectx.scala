@@ -7,6 +7,8 @@ enum StoneColor:
   case Black, White
   def other: StoneColor = if (this == Black) White else Black 
 
+type CellType = Option[StoneColor]
+
 
 enum GameResult:
   case Draw, BlackWon, WhiteWon
@@ -15,7 +17,7 @@ object GameResult:
   def fromStone(stone: StoneColor): GameResult = if(stone == StoneColor.Black) BlackWon else WhiteWon
 
 
-case class Board(val width: Int, val height: Int, val cells: Vector[Option[StoneColor]]):
+case class Board(val width: Int, val height: Int, val cells: Vector[CellType]):
 
   def canPutStone(col: Int): Boolean = 
     if (col >= width || col < 0) return false

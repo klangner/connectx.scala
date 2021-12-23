@@ -24,13 +24,13 @@ class BoardSpec extends AnyWordSpec  with Matchers {
     "Board" should {
       "start empty" in {
         val board = Board(7, 6)
-        board.getStone(3, 0) shouldBe CellType.NoStone
+        board.getStone(3, 0) shouldBe None
       }
       
       "add stone" in {
         val board = Board(7, 6)
           .putStone(3, StoneColor.Black)
-        board.getStone(3, 0) shouldBe CellType.Stone(StoneColor.Black)
+        board.getStone(3, 0) shouldBe Some(StoneColor.Black)
       }
       
       "allow to add stone" in {
@@ -59,8 +59,8 @@ class BoardSpec extends AnyWordSpec  with Matchers {
         val b2 = board
           .putStone(3, StoneColor.Black)
           .putStone(3, StoneColor.White)
-        b2.getStone(3, 1) shouldBe CellType.Stone(StoneColor.White)
-        b2.getStone(3, 0) shouldBe CellType.Stone(StoneColor.Black)
+        b2.getStone(3, 1) shouldBe Some(StoneColor.White)
+        b2.getStone(3, 0) shouldBe Some(StoneColor.Black)
       }
 
       "return valida moves" in {
